@@ -82,7 +82,7 @@
   </style>
 
   <!-- Coze WebSDK -->
-  <script src="https://lf-cdn.coze.cn/obj/unapp-union/flow-platform/chat-app-sdk/1.2.0-beta.17/libs/cn/index.js"></script>
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js"></script>
   <style>
     .ai-chat-btn {
       display: inline-flex; align-items: center; gap: 6px;
@@ -424,7 +424,7 @@ function openAgent(section) {
         bot_id: config.bot_id,
         isIframe: false
       },
-      auth: { type: 'unauth' },
+      auth: { type: 'token', token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a' },
       ui: {
         base: { layout: 'pc', lang: 'zh-CN', zIndex: 1000 },
         header: { isShow: true, isNeedClose: true, title: config.title },
