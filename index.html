@@ -80,6 +80,30 @@
       .container { padding: 30px 16px; }
     }
   </style>
+
+  <!-- Coze WebSDK -->
+  <script src="https://lf-cdn.coze.cn/obj/unapp-union/flow-platform/chat-app-sdk/1.2.0-beta.17/libs/cn/index.js"></script>
+  <style>
+    .ai-chat-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; padding: 10px 20px; border-radius: 24px;
+      font-size: 0.88rem; font-weight: 500; cursor: pointer;
+      margin-top: 16px; transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(102,126,234,0.3);
+    }
+    .ai-chat-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(102,126,234,0.5); }
+    .ai-chat-btn:active { transform: translateY(0); }
+    .ai-chat-btn .pulse {
+      width: 8px; height: 8px; background: #4ade80; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .section-chat-wrap { text-align: center; margin-top: 20px; }
+  </style>
 </head>
 <body>
 
@@ -145,6 +169,13 @@
       <div class="module-meta"><span class="tag done">✅ 已发布</span><span class="tag">看板</span></div>
       <div class="module-links"><a href="https://clawhub.ai/skills/inter-control-07-risk-dashboard" target="_blank">🔗 查看技能 →</a></div>
     </div>
+  </div>
+
+
+  <div class="section-chat-wrap">
+    <button class="ai-chat-btn" onclick="openAgent('inter-control')">
+      <span class="pulse"></span> 💬 体验内控AI助手
+    </button>
   </div>
 
   <!-- ========== APOLLO OS ========== -->
@@ -229,6 +260,13 @@
     </div>
   </div>
 
+
+  <div class="section-chat-wrap">
+    <button class="ai-chat-btn" onclick="openAgent('apollo')">
+      <span class="pulse"></span> 💬 体验Apollo AI助手
+    </button>
+  </div>
+
   <!-- ========== LOCAL ========== -->
   <h2 class="section-title" style="margin-top:60px;">Local 本地生活系列</h2>
   <div class="brand-intro">
@@ -296,6 +334,13 @@
     </div>
   </div>
 
+
+  <div class="section-chat-wrap">
+    <button class="ai-chat-btn" onclick="openAgent('local')">
+      <span class="pulse"></span> 💬 体验本地生活AI助手
+    </button>
+  </div>
+
   <!-- ========== VERTICAL ========== -->
   <h2 class="section-title" style="margin-top:60px;">Vertical 垂直工具</h2>
   <div class="modules-grid">
@@ -315,9 +360,85 @@
   </div>
 </div>
 
+
+  <div class="section-chat-wrap">
+    <button class="ai-chat-btn" onclick="openAgent('vertical')">
+      <span class="pulse"></span> 💬 体验垂直工具AI助手
+    </button>
+  </div>
+
 <footer>
   <p>niiict.art · Powered by Apollo OS</p>
 </footer>
+
+
+<script>
+// ===== Coze WebSDK 分区Agent配置 =====
+// TODO: 替换为你在 coze.cn 创建的真实 bot_id
+const AGENT_CONFIG = {
+  'inter-control': {
+    bot_id: 'BOT_ID_INTER_CONTROL',  // 内控系列Agent
+    title: '内控AI助手',
+    hint: '问我投诉分类、风险评分、物流预警、合规检测等问题'
+  },
+  'apollo': {
+    bot_id: 'BOT_ID_APOLLO',  // Apollo OS Agent
+    title: 'Apollo AI助手',
+    hint: '问我记忆整理、安全防御、智能调度、自我进化等问题'
+  },
+  'local': {
+    bot_id: 'BOT_ID_LOCAL',  // 本地生活Agent
+    title: '本地生活AI助手',
+    hint: '问我选品策略、团长运营、供应链管理、获客留存等问题'
+  },
+  'vertical': {
+    bot_id: 'BOT_ID_VERTICAL',  // 垂直工具Agent
+    title: '垂直工具AI助手',
+    hint: '问我装修估价、AI创业指南等工具使用问题'
+  }
+};
+
+let currentChat = null;
+
+function openAgent(section) {
+  // 关闭已有窗口
+  if (currentChat) {
+    try { currentChat.destroy(); } catch(e) {}
+    currentChat = null;
+  }
+
+  const config = AGENT_CONFIG[section];
+  if (!config) return;
+
+  // 检查bot_id是否已配置
+  if (config.bot_id.startsWith('BOT_ID_')) {
+    alert('⚠️ 该分区的Agent尚未配置\n\n请在 coze.cn 创建对应Bot后，将bot_id填入网页代码中。\n\n配置位置：index.html 中的 AGENT_CONFIG 对象');
+    return;
+  }
+
+  // 创建新的Chat实例
+  try {
+    currentChat = new CozeWebSDK.WebChatClient({
+      config: {
+        type: 'bot',
+        bot_id: config.bot_id,
+        isIframe: false
+      },
+      auth: { type: 'unauth' },
+      ui: {
+        base: { layout: 'pc', lang: 'zh-CN', zIndex: 1000 },
+        header: { isShow: true, isNeedClose: true, title: config.title },
+        chatBot: { title: config.title, width: 390 },
+        footer: { isShow: true, expressionText: 'Powered by niict.art' },
+        chat: { hint: config.hint }
+      }
+    });
+  } catch(e) {
+    console.error('Chat SDK error:', e);
+    alert('对话窗口启动失败，请稍后重试');
+  }
+}
+</script>
 
 </body>
 </html>
