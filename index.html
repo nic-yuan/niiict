@@ -424,7 +424,7 @@ function openAgent(section) {
         bot_id: config.bot_id,
         isIframe: false
       },
-      auth: { type: 'token', token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a' },
+      auth: { type: 'token', token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a', onRefreshToken: () => 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a' },
       ui: {
         base: { layout: 'pc', lang: 'zh-CN', zIndex: 1000 },
         header: { isShow: true, isNeedClose: true, title: config.title },
