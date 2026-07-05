@@ -420,8 +420,7 @@ function openAgent(section) {
   try {
     currentChat = new CozeWebSDK.WebChatClient({
       config: {
-        type: 'bot',
-        bot_id: config.bot_id,
+        botId: config.bot_id,
         isIframe: false
       },
       auth: { type: 'token', token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a', onRefreshToken: () => 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a' },
@@ -433,9 +432,10 @@ function openAgent(section) {
         chat: { hint: config.hint }
       }
     });
+    currentChat.showChatBot();
   } catch(e) {
     console.error('Chat SDK error:', e);
-    alert('对话窗口启动失败，请稍后重试');
+    alert('对话窗口启动失败: ' + e.message);
   }
 }
 </script>
