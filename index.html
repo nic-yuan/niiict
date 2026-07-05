@@ -421,15 +421,23 @@ function openAgent(section) {
     currentChat = new CozeWebSDK.WebChatClient({
       config: {
         botId: config.bot_id,
-        isIframe: false
+        isIframe: true
       },
-      auth: { type: 'token', token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a', onRefreshToken: () => 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a' },
+      auth: {
+        type: 'token',
+        token: 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a',
+        onRefreshToken: () => 'sat_i9tkIcTe02uolNaJsYCL9tThWo8UpMA0EK5JRusPPJ7e4C7KwLTRMcSjzmzqqQ7a'
+      },
+      userInfo: {
+        id: 'niict-art-user',
+        url: 'https://lf-coze-web-cdn.coze.cn/obj/coze-web-cn/obric/coze/favicon.1970.png',
+        nickname: 'User'
+      },
       ui: {
         base: { layout: 'pc', lang: 'zh-CN', zIndex: 1000 },
         header: { isShow: true, isNeedClose: true, title: config.title },
         chatBot: { title: config.title, width: 390 },
-        footer: { isShow: true, expressionText: 'Powered by niict.art' },
-        chat: { hint: config.hint }
+        footer: { isShow: true, expressionText: 'Powered by niict.art' }
       }
     });
     currentChat.showChatBot();
